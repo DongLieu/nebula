@@ -1,0 +1,90 @@
+syntax = "proto3";
+package nebula.ido;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/nebula-labs/nebula/x/ido/types";
+
+message AllocationLimit {
+    string denom = 1 [
+        (gogoproto.moretags) = "yaml:\"denom\""
+    ];
+
+    cosmos.base.v1beta1.Coin lower_limit = 2 [
+        (gogoproto.moretags) = "yaml:\"lower_limit\"",
+        (gogoproto.nullable) = false,
+        (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+    ];
+
+    cosmos.base.v1beta1.Coin upper_limit = 3 [
+        (gogoproto.moretags) = "yaml:\"upper_limit\"",
+        (gogoproto.nullable) = false,
+        (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+    ];
+}
+
+message Entry {
+    string participant = 1 [
+        (gogoproto.moretags) = "yaml:\"participant\""
+    ];
+
+    repeated cosmos.base.v1beta1.Coin commit_amount = 2 [
+        (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins",
+        (gogoproto.moretags) = "yaml:\"commit_amount\"",
+        (gogoproto.nullable) = false
+    ];
+}
+
+message IDO {
+    option (gogoproto.goproto_getters) = false;
+    option (gogoproto.goproto_stringer) = false;
+    option (cosmos_proto.implements_interface) = "ReleaseMechanismI";
+
+    // Project unique id of each project
+    uint64 project_id = 1 [
+        (gogoproto.moretags) = "yaml:\"project_id\""
+    ];
+
+    repeated cosmos.base.v1beta1.Coin token_for_distribution = 2 [
+        (gogoproto.moretags) = "yaml:\"token_for_distribution\"",
+        (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins",
+        (gogoproto.nullable) = false
+    ];
+
+    repeated cosmos.base.v1beta1.Coin total_distributed_amount = 3 [
+        (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins",
+        (gogoproto.moretags) = "yaml:\"total_distributed_amount\"",
+        (gogoproto.nullable) = false
+    ];
+
+    repeated cosmos.base.v1beta1.Coin token_listing_price = 4 [
+        (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins",
+        (gogoproto.moretags) = "yaml:\"token_listing_price\"",
+        (gogoproto.nullable) = false
+    ];
+
+    uint64 ido_status = 5 [
+        (gogoproto.moretags) = "yaml:\"ido_status\""
+    ];
+
+    repeated AllocationLimit allocation_limit = 6 [
+        (gogoproto.moretags) = "yaml:\"allocation_limit\"",
+        (gogoproto.nullable) = false
+    ];
+
+    // Begin time for this ido
+    google.protobuf.Timestamp start_time = 7 [
+        (gogoproto.stdtime) = true,
+        (gogoproto.nullable) = false,
+        (gogoproto.moretags) = "yaml:\"start_time\""
+    ];
+
+    // Record entry of participant
+    map<string, Entry> entries = 8 [
+        (gogoproto.moretags) = "yaml:\"entries\"",
+        (gogoproto.nullable) = false
+    ];
+}

@@ -1,0 +1,16 @@
+{
+    "type": "cosmos",
+    "value": {
+        "key": "ibc-key",
+        "chain-id": "baby-1",
+        "rpc-addr": "http://127.0.0.1:2281",
+        "account-prefix": "baby",
+        "keyring-backend": "test",
+        "gas-adjustment": 1.2,
+        "gas-prices": "0.001ubaby",
+        "debug": true,
+        "timeout": "20s",
+        "output-format": "json",
+        "sign-mode": "direct"
+    }
+}

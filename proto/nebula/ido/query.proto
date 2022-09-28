@@ -1,0 +1,61 @@
+syntax = "proto3";
+package nebula.ido;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "nebula/ido/params.proto";
+import "nebula/ido/ido.proto";
+// this line is used by starport scaffolding # 1
+
+option go_package = "github.com/nebula-labs/nebula/x/ido/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/nebula/ido/params";
+  }
+
+  rpc IDO(IDORequest) returns (IDOResponse) {
+    option (google.api.http).get = "/nebula/ido/ido/{project_id}";
+  }
+
+  rpc TotalIDO(TotalIDORequest) returns (TotalIDOResponse) {
+    option (google.api.http).get = "/nebula/ido/total-ido";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+// ====== IDO
+message IDORequest {
+  // Project unique id of each project
+  uint64 project_id = 1 [
+    (gogoproto.moretags) = "yaml:\"project_id\""
+  ];
+}
+
+message IDOResponse {
+  IDO ido = 1 [
+    (gogoproto.moretags) = "yaml:\"ido\""
+  ];
+}
+
+// ====== Total IDO
+message TotalIDORequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message TotalIDOResponse {
+  repeated IDO idos = 1 [ (gogoproto.nullable) = false ];
+
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

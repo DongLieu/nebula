@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  node0:
+    container_name: nebulanode0
+    image: "nebula-node"
+    ports:
+      - "26656-26657:26656-26657"
+      - "1317:1317"
+    volumes:
+      - ./build/node0:/nebula:Z
+    command:
+      - nebulad start --home /nebula
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.2
+
+  node1:
+    container_name: nebulanode1
+    image: "nebula-node"
+    ports:
+      - "26659-26660:26656-26657"
+      - "1318:1317"
+    volumes:
+      - ./build/node1:/nebula:Z
+    command:
+      - nebulad start --home /nebula
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.3
+
+  node2:
+    container_name: nebulanode2
+    image: "nebula-node"
+    ports:
+      - "26661-26662:26656-26657"
+      - "1319:1317"
+    volumes:
+      - ./build/node2:/nebula:Z
+    command:
+      - nebulad start --home /nebula
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.4
+
+  node3:
+    container_name: nebulanode3
+    image: "nebula-node"
+    ports:
+      - "26663-26664:26656-26657"
+      - "1320:1317"
+    volumes:
+      - ./build/node3:/nebula:Z
+    command:
+      - nebulad start --home /nebula
+    networks:
+      localnet:
+        ipv4_address: 192.167.10.5
+
+networks:
+  localnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        -
+          subnet: 192.167.10.0/16

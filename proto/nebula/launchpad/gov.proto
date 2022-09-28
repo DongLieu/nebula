@@ -1,0 +1,27 @@
+syntax = "proto3";
+package nebula.launchpad;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/nebula-labs/nebula/x/launchpad/types";
+
+// SetSuperfluidAssetsProposal is a gov Content type to update the superfluid
+// assets
+message SetProjectVerifiedProposal {
+    option (gogoproto.equal) = true;
+    option (gogoproto.goproto_getters) = false;
+    option (gogoproto.goproto_stringer) = false;
+
+    string title = 1;
+    string description = 2;
+
+    // Project owner
+    string project_owner = 3 [
+        (gogoproto.moretags) = "yaml:\"project_owner\""
+    ];
+
+    // Project unique id of each project (incremental from 1)
+    uint64 project_id = 4 [
+        (gogoproto.moretags) = "yaml:\"project_id\""
+    ];
+}

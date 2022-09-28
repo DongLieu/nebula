@@ -1,0 +1,64 @@
+syntax = "proto3";
+package nebula.launchpad;
+
+import "google/protobuf/timestamp.proto";
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/nebula-labs/nebula/x/launchpad/types";
+
+// Msg defines the Msg service.
+service Msg {
+    rpc CreateProject(MsgCreateProjectRequest) returns (MsgCreateProjectResponse);
+    rpc DeleteProject(MsgDeleteProjectRequest) returns (MsgDeleteProjectResponse);
+    rpc WithdrawAllTokens(MsgWithdrawAllTokensRequest) returns (MsgWithdrawAllTokensResponse);
+}
+
+// ===================== MsgCreateProject
+
+message MsgCreateProjectRequest {
+    // owner of this project
+    string owner = 1 [ (gogoproto.moretags) = "yaml:\"owner\"" ];
+    
+    // the title of project
+    string project_title = 2 [
+        (gogoproto.moretags) = "yaml:\"project_title\""
+    ];
+
+    // Project information
+    string project_information = 3 [
+        (gogoproto.moretags) = "yaml:\"project_information\""
+    ];
+}
+
+message MsgCreateProjectResponse {
+    uint64 project_id = 1 [
+        (gogoproto.moretags) = "yaml:\"project_id\""
+    ];
+}
+
+// ===================== MsgDeleteProject
+
+message MsgDeleteProjectRequest {
+    // owner of this project
+    string owner = 1 [ (gogoproto.moretags) = "yaml:\"owner\"" ];
+
+    uint64 project_id = 2 [
+        (gogoproto.moretags) = "yaml:\"project_id\""
+    ];
+}
+
+message MsgDeleteProjectResponse {}
+
+// ===================== MsgWithdrawTokens
+
+message MsgWithdrawAllTokensRequest {
+    // owner of this project
+    string owner = 1 [ (gogoproto.moretags) = "yaml:\"owner\"" ];
+
+    uint64 project_id = 2 [
+        (gogoproto.moretags) = "yaml:\"project_id\""
+    ];
+}
+
+message MsgWithdrawAllTokensResponse {}
